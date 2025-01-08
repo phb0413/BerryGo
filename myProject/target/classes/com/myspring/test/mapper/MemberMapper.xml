@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.myspring.test.mapper.MemberMapper">
+	<select id="loginMemberCheck" parameterType="java.util.Map" resultType="com.myspring.test.member.Member">
+		SELECT * FROM member WHERE member_id=#{id} AND member_pw=#{pw}
+	</select>
+	
+	<select id="checkDoubleId" parameterType="java.util.Map" resultType="com.myspring.test.member.Member">
+		SELECT * FROM member WHERE member_id=#{id}
+	</select>
+	
+	<select id="checkDoubleEmail" parameterType="java.util.Map" resultType="com.myspring.test.member.Member">
+		SELECT * FROM member WHERE member_email=#{email}
+	</select>
+	
+	<insert id="insertMember" parameterType="java.util.Map">
+		INSERT INTO member VALUES(0, #{id}, #{pw}, #{name}, #{email}, #{phone}, #{addr1}, #{addr2}, #{addr3}, #{gender}, #{route}, #{marketing})
+	</insert>
+	
+</mapper>
+
+
+
+

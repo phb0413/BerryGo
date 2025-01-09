@@ -53,7 +53,7 @@ public class MemberController {
 		
 		session.setAttribute("log", null);
 		
-		return "redirect:/shop/itemList.do";
+		return "redirect:/index.do";
 	}
 	
 	@GetMapping(value = "/joinForm.do")

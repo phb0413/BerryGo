@@ -40,6 +40,11 @@
 			<td>비밀번호</td>
 			<td><input type="text" id="input-memberPw"></td>
 		</tr>
+		<tr>
+			<td colspan="2" id="loginPro">
+				<button id="button-memberLoginPro">로그인</button>
+			</td>
+		</tr>
 	</table>
 	
 	<script>
@@ -55,19 +60,19 @@
 				return false;
 			}
 			
-			let member = {"id" : $inputMemberId.value, $inputMemberPw.value};
+			let member = {"id" : $inputMemberId.value, "pw" : $inputMemberPw.value};
 			
 			$.ajax({
 				url : cp + "/member/loginPro.do",
-				type : "post",
+				type : "POST",
 				dataType: "json",
-				data : JSON.stringify(member);
+				data : JSON.stringify(member),
 				contentType:'application/json; charset=utf-8',
 				success: function(dataResult) {
 					if(dataResult==-1) {
 						alert("로그인 실패");
 					} else {
-						aelrt("로그인 성공");
+						alert("로그인 성공");
 						location.href=cp+ "/";
 					}
 				},

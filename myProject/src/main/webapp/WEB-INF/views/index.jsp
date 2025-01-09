@@ -10,7 +10,7 @@
 </head>
 <body>
 	
-	<jsp:include page="nav.jsp" />
+	<jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>	
 	<div class="center">
 		<br>
 		<h1>메인 화면입니다.</h1>
@@ -18,5 +18,6 @@
 	
 		<br>
 	</div>
+	<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
 </body>
 </html>

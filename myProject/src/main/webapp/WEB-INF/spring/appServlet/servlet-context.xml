@@ -22,6 +22,14 @@
 	</beans:bean>
 	
 	<context:component-scan base-package="com.myspring.test" />
-
+	
+	<!-- 파일 업로드 -->
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!--
+			maxUploadSize : 최대 업로드 가능한 바이트 크기
+			value="10485760" : 최대 업로드 사이즈 10MB
+		  -->
+		<beans:property name="maxUploadSize" value="10485760" />
+	</beans:bean> 
 
 </beans:beans>

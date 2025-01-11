@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.myspring.test.mapper.BoardImageMapper">
+	<insert id="insertBoardImage" parameterType="java.util.Map">
+		INSERT INTO boardImage VALUES(0, #{boardNumber}, #{fileName});
+	</insert>
+	
+	<select id="getBoardImageList" parameterType="java.util.Map" resultType="com.myspring.test.board.BoardImage">
+		SELECT * FROM boardImage WHERE boardimage_boardnumber=#{num}
+	</select>
+</mapper>

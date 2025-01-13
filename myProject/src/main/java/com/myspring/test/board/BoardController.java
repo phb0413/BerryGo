@@ -104,35 +104,49 @@ public class BoardController {
 	}
 	
 	@ResponseBody
-	@PostMapping(value="/boardWritePro.do")
+	@PostMapping(value = "/boardWritePro.do")
 	public int boardWritePro(MultipartHttpServletRequest mRequest) throws Exception {
+		
+		// mRequest는 별도의 한글 인코딩 처리가 필요하며, 예외처리도 함께 적용해야 한다.
 		mRequest.setCharacterEncoding("UTF-8");
 		
+		System.out.println("boardWritePro");
+
 		ServletContext context = mRequest.getSession().getServletContext();
-		String saveFolder = "/resources/upload";
+		String saveFolder = "/resources/upload/";
 		String uploadPath = context.getRealPath(saveFolder);
+		System.out.println("uploadPath="+uploadPath);
 		
+		// # getParameterNames() : form태그 안의 name값 불러오기
 		Enumeration<String> keyList = mRequest.getParameterNames();
 		Map<String, Object> mapList = new HashMap<String, Object>();
 		
 		while(keyList.hasMoreElements()) {
 			String key = keyList.nextElement();
+			System.out.print("key = " + key);
+			
 			String value = mRequest.getParameter(key);
+			System.out.println(", value = " + value);
+			
 			mapList.put(key, value);
 		}
 		
 		mapList.put("readcount", 0);
+		
 		int maxBoardRef = mapper.getMaxRef();
 		mapList.put("ref", maxBoardRef + 1);
 		
+		
+		
 		int check = mapper.insertBoard(mapList);
 		if(check == 1) {
+			
 			int boardNumber = mapper.getLastBoardNumber();
 			
 			// # getFileNames() : form태그에서 type=file로 지정한 태그의 name값 불러오기
 			Iterator<String> iterator = mRequest.getFileNames();
 			
-			while(iterator.hasNext()) {
+			while(iterator.hasNext()){
 				Map<String, Object> imageMapList = new HashMap<String, Object>();
 
 				imageMapList.put("boardNumber", boardNumber);
@@ -147,6 +161,7 @@ public class BoardController {
 				System.out.println("originFileName = " + originFileName);
 				
 				String saveFileName = originFileName;
+				
 				
 				// 업로드된 파일이 존재하면
 				if(saveFileName != null && !saveFileName.equals("")){
@@ -169,8 +184,11 @@ public class BoardController {
 						e.printStackTrace();
 					} 				
 				}
+
+				
 			}
 		}
+		
 		return check;
 	}
 }

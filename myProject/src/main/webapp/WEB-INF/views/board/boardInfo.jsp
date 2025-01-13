@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+<c:set var="cp" value="${pageContext.request.contextPath}"/>
          
 <!DOCTYPE html>
 <html>
@@ -60,8 +60,7 @@
 				<td>사진</td>
 				<td>
 					<c:forEach var="boardimage" items= "${boardimageList}">
-						<c:set var="imagePath" value="${cp}/resources/upload/${boardimage.boardimage_boardname}"></c:set>
-						<script>console.log(imagePath)</script>
+						<c:set var="imagePath" value="${cp}/resources/upload/${boardimage.boardimage_name}"></c:set>
 						<p>
 							<img src="${imagePath}" class="boardImage">
 						</p>
@@ -70,10 +69,10 @@
 			</tr>
 			<tr>
 				<td colspan="4">
-					<input type="button" value="수정하기" onclick="location.href='${contextPath}/board/boardUpdateForm.do?num=${board.board_number}'">
-					<input type="button" value="삭제하기" onclick="location.href='${contextPath}/board/boardDelete.do?num=${board.board_number}'">
-					<input type="button" value="답글쓰기" onclick="location.href='${contextPath}/board/boardReWriteForm.do?num=${board.board_number}'">
-					<input type="button" value="목록보기" onclick="location.href='${contextPath}/board/boardList.do'" >
+					<input type="button" value="수정하기" onclick="location.href='${cp}/board/boardUpdateForm.do?num=${board.board_number}'">
+					<input type="button" value="삭제하기" onclick="location.href='${cp}/board/boardDelete.do?num=${board.board_number}'">
+					<input type="button" value="답글쓰기" onclick="location.href='${cp}/board/boardReWriteForm.do?num=${board.board_number}'">
+					<input type="button" value="목록보기" onclick="location.href='${cp}/board/boardList.do'" >
 				</td>
 			</tr>
 		</table>

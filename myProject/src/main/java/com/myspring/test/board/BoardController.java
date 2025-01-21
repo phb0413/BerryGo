@@ -168,7 +168,7 @@ public class BoardController {
 					// 그 파일의 이름이 기존에 있던 파일들과 이름이 중복되면
 					if(new File(uploadPath + saveFileName).exists()){
 						// 파일명 뒤에 _시간을 붙여 이름을 업뎃
-						saveFileName = saveFileName + "_"+System.currentTimeMillis();
+						 saveFileName = saveFileName + "_"+System.currentTimeMillis();
 					}
 					
 					try {

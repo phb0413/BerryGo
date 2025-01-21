@@ -15,4 +15,9 @@ public interface BoardMapper {
 	public int getMaxRef();
 	public int insertBoard(Map<String, Object> data);
 	public int getLastBoardNumber();
+	public void updateBoardReadCount(int num);
+	public void updateBoard(Board board);
+	public void boardDelete(int num);
+	public void updateReBoard(Board board);
+	public void reWriteBoard(Board board);
 }

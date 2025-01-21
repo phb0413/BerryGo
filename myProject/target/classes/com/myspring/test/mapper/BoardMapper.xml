@@ -7,23 +7,43 @@
 	
 	<select id="getAllBoard" parameterType="java.util.Map" resultType="com.myspring.test.board.Board">
 		SELECT * FROM board
-		ORDER BY board_ref DESC, board_level LIMIT #{startRow}, #{pageSize}
+		ORDER BY ref DESC, re_level LIMIT #{startRow}, #{pageSize}
 	</select>
 	
 	<select id="getOneBoard" parameterType="java.util.Map" resultType="com.myspring.test.board.Board">
 		SELECT * FROM board
-		WHERE board_number=#{num}
+		WHERE num=#{num}
 	</select>
 	
 	<select id="getMaxRef" resultType="Integer">
-		SELECT MAX(board_ref) FROM board
+		SELECT MAX(ref) FROM board
 	</select>
 	
 	<select id="getLastBoardNumber" resultType="Integer">
-		SELECT MAX(board_number) FROM board
+		SELECT MAX(num) FROM board
 	</select>
 	
 	<insert id="insertBoard" parameterType="java.util.Map">
 		INSERT INTO board VALUES(0,#{writer}, #{subject}, #{content}, now(), 0, #{ref}, 1, 1)
+	</insert>
+	
+	<update id="updateBoardReadCount" parameterType="Integer">
+		UPDATE board SET readcount = readcount  +1 WHERE num=#{num}
+	</update>
+	
+	<update id="updateBoard" parameterType="com.myspring.test.board.Board">
+		UPDATE board SET subject = #{subject}, content = #{content} WHERE num=#{num}
+	</update>
+	
+	<delete id="boardDelete" parameterType="Integer">
+		DELETE FROM board WHERE num = #{num}
+	</delete>
+	
+	<update id="updateReBoard" parameterType="com.myspring.test.board.Board">
+		UPDATE board SET re_level = re_level + 1 WHERE ref = #{ref} AND re_level > #{re_level}
+	</update>
+	
+	<insert id="reWriteBoard" parameterType="com.myspring.test.board.Board">
+		INSERT INTO board VALUES(0,#{writer}, #{subject}, #{content}, now(), 0, #{ref}, #{re_step} + 1, #{re_level} + 1)
 	</insert>
 </mapper>

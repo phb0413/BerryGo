@@ -48,12 +48,18 @@
 	<c:forEach var="board" items="${boardList}">
 		<tr>
 			<td>${number}</td>
-			<td>
-				<a href="${cp}/board/boardInfo.do?num=${board.board_number}">${board.board_subject}</a>
+			<td width="400px">
+				<c:if test="${board.re_step > 1}">
+					<c:forEach var="j" begin="1" end="${(board.re_step - 1) * 3}">
+						&nbsp;
+					</c:forEach>
+					[답글]
+				</c:if>
+				<a href="${cp}/board/boardInfo.do?num=${board.num}">${board.subject}</a>
 			</td>
-			<td>${board.board_writer}</td>
-			<td>${board.board_date}</td>
-			<td>${board.board_readcount}</td>
+			<td>${board.writer}</td>
+			<td>${board.reg_date}</td>
+			<td>${board.readcount}</td>
 		</tr>
 		<c:set var="number" value="${number - 1}"></c:set>
 	</c:forEach>

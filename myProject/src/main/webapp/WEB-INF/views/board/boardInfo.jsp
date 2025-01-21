@@ -38,23 +38,23 @@
 		<table border="1">
 			<tr>
 				<td>번호</td>
-				<td>${board.board_number}</td>
+				<td>${board.num}</td>
 				<td>조회수</td>
-				<td>${board.board_readcount}</td>
+				<td>${board.readcount}</td>
 			</tr>
 			<tr>
 				<td>작성자</td>
-				<td>${board.board_writer}</td>
+				<td>${board.writer}</td>
 				<td>작성일</td>
-				<td>${board.board_date}</td>
+				<td>${board.reg_date}</td>
 			</tr>
 			<tr>
 				<td>제목</td>
-				<td colspan="3">${board.board_subject}</td>
+				<td colspan="3">${board.subject}</td>
 			</tr>
 			<tr>
 				<td>내용</td>
-				<td colspan="3">${board.board_content}</td>
+				<td colspan="3">${board.content}</td>
 			</tr>
 			<tr>
 				<td>사진</td>
@@ -69,9 +69,9 @@
 			</tr>
 			<tr>
 				<td colspan="4">
-					<input type="button" value="수정하기" onclick="location.href='${cp}/board/boardUpdateForm.do?num=${board.board_number}'">
-					<input type="button" value="삭제하기" onclick="location.href='${cp}/board/boardDelete.do?num=${board.board_number}'">
-					<input type="button" value="답글쓰기" onclick="location.href='${cp}/board/boardReWriteForm.do?num=${board.board_number}'">
+					<input type="button" value="수정하기" onclick="location.href='${cp}/board/boardUpdateForm.do?num=${board.num}'">
+					<input type="button" value="삭제하기" onclick="location.href='${cp}/board/boardDelete.do?num=${board.num}'">
+					<input type="button" value="답글쓰기" onclick="location.href='${cp}/board/boardReWriteForm.do?num=${board.num}'">
 					<input type="button" value="목록보기" onclick="location.href='${cp}/board/boardList.do'" >
 				</td>
 			</tr>

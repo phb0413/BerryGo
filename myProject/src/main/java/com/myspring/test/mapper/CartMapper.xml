@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.myspring.test.mapper.CartMapper">
+
+	<insert id="addItemToCart" parameterType="com.myspring.test.shop.Cart">
+		 INSERT INTO cart (cart_buyer, cart_buycount, cart_fruitnumber)
+        VALUES (#{cart_buyer}, #{cart_buycount}, #{cart_fruitnumber})
+	</insert>
+	
+	<select id="getCartByUser" parameterType="String" resultType="com.myspring.test.shop.Cart">
+		SELECT * FROM cart WHERE cart_buyer = #{buyer}
+	</select>
+	
+	<update id="updateCartItemCount" parameterType="com.myspring.test.shop.Cart">
+		UPDATE cart SET cart_buycount = #{cart_buycount} WHERE cart_number = #{cart_number}
+	</update>
+	
+	<delete id="removeItemFromCart" parameterType="Integer">
+		DELETE FROM cart where cart_number = #{cart_number}
+	</delete>
+	
+	
+	
+	
+</mapper>

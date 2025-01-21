@@ -82,7 +82,7 @@ public class BoardController {
 	@GetMapping(value="/boardInfo.do")
 	public String boardInfo(HttpServletRequest request, Model model) {
 		int num = Integer.parseInt(request.getParameter("num"));
-		
+		mapper.updateBoardReadCount(num);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("num", num);
 		
@@ -191,4 +191,56 @@ public class BoardController {
 		
 		return check;
 	}
+	
+	@GetMapping(value="/boardUpdateForm.do")
+	public String boardUpdateFrom(HttpServletRequest request, Model model) {
+		int num = Integer.parseInt(request.getParameter("num"));
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("num", num);
+		
+		Board board = mapper.getOneBoard(map);
+		model.addAttribute(board);
+		return "board/boardUpdateForm";
+	}
+	
+	@PostMapping(value="/boardUpdatePro.do")
+	public String boardUpdatePro(Board board, HttpServletRequest request) {
+		mapper.updateBoard(board);
+		return "redirect:boardList.do";
+	}
+	
+	@GetMapping(value="/boardReWriteForm.do")
+	public String boardReWriteForm(HttpServletRequest request, Model model) {
+		int num = Integer.parseInt(request.getParameter("num"));
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("num", num);
+		
+		Board board = mapper.getOneBoard(map);
+		int ref = board.getRef();
+		int re_step = board.getRe_step();
+		int re_level = board.getRe_level();
+		
+		model.addAttribute("ref", ref);
+		model.addAttribute("re_step", re_step);
+		model.addAttribute("re_level", re_level);
+		
+		return "board/boardRewriteForm";
+	}
+	
+	@PostMapping(value="/boardReWritePro.do")
+	public String boardReWritePro(Board board) {
+		mapper.updateReBoard(board);
+		mapper.reWriteBoard(board);
+		
+		return "redirect:boardList.do";
+	}
+	
+	@GetMapping(value="/boardDelete.do")
+	public String boardDelete(HttpServletRequest request) {
+		int num = Integer.parseInt(request.getParameter("num"));
+		mapper.boardDelete(num);
+		return "redirect:boardList.do";
+	}
+	
 }

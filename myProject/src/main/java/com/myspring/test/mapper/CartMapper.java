@@ -12,5 +12,6 @@ public interface CartMapper {
 	public List<Cart> getCartByUser(String buyer);
 	public void updateCartItemCount(Cart cart);
 	public void removeItemFromCart(int cart_number);
+	Cart getCartItem(Cart cart);
 	
 }

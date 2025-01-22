@@ -8,16 +8,33 @@
 	</insert>
 	
 	<select id="getCartByUser" parameterType="String" resultType="com.myspring.test.shop.Cart">
-		SELECT * FROM cart WHERE cart_buyer = #{buyer}
+		SELECT 
+            c.cart_number,
+            c.cart_buyer,
+            c.cart_buycount,
+            i.item_name,
+            i.item_price,
+            i.item_image
+        FROM cart c
+        JOIN item i ON c.cart_fruitnumber = i.item_number
+        WHERE c.cart_buyer = #{buyer}
 	</select>
 	
 	<update id="updateCartItemCount" parameterType="com.myspring.test.shop.Cart">
-		UPDATE cart SET cart_buycount = #{cart_buycount} WHERE cart_number = #{cart_number}
+		UPDATE cart
+        SET cart_buycount = cart_buycount + #{cart_buycount}
+        WHERE cart_buyer = #{cart_buyer} AND cart_fruitnumber = #{cart_fruitnumber}
 	</update>
 	
 	<delete id="removeItemFromCart" parameterType="Integer">
 		DELETE FROM cart where cart_number = #{cart_number}
 	</delete>
+	
+	 <select id="getCartItem" parameterType="com.myspring.test.shop.Cart" resultType="com.myspring.test.shop.Cart">
+        SELECT *
+        FROM cart
+        WHERE cart_buyer = #{cart_buyer} AND cart_fruitnumber = #{cart_fruitnumber}
+    </select>
 	
 	
 	

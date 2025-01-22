@@ -25,6 +25,7 @@
         }        
             
 	</style>
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	<script>
 		let cp = window.location.pathname.substring(0, window.location.pathname.indexOf("/",2));
 	</script>
@@ -111,50 +112,60 @@
 	<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
 	
 	<script>
-		let addCart = (event) => {
-			<c:if test="${null eq sessionScope.log}">
-				alert("로그인 후 이용가능합니다.");
-				location.href = cp + "/member/loginForm.do";
-				return false;
-			</c:if>
-			
-			$.ajax({
-				type : "POST",
-				url : cp + "/item/addCartPro.do",
-				data : {
-					itemNumber: $itemNumber.value,
-					buyCount: $buyCount.value,
-					log: log
-				},
-				success: function(data) {
-					let str = '<p id = "check">';
-					let length = str.length;
-					let startIndex = data.indexOf(str);
-					
-					let checkValue = data.substr(startIndex + length);
-					
-					console.log("data = " + data);
-					console.log("length = " + length);
-					console.log("startIndex = " + startIndex);
-					console.log("[checkValue = " + checkValue + "]");
-					
-					if(checkValue.trim() == "-1") {
-						alert("장바구니에 담겼습니다.");
-						location.href = "cartList.jsp";
-					}
-				},
-				error : function() {
-					alert("itemInfo error");
-				}
-				
-			});
-		}
-		
-		let $addCart = document.querySelector("#btn-addCart");
-		$addCart.addEventListener("click", addCart);
-		
-		let $itemNumber = document.querySelector("#itemNumber");
-		let $buyCount = document.querySelector("#buyCount");
+	document.addEventListener("DOMContentLoaded", () => {
+	    const $addCart = document.querySelector("#btn-addCart");
+	    const $itemNumber = document.querySelector("#itemNumber");
+	    const $buyCount = document.querySelector("#buyCount");
+
+	    if ($addCart) {
+	        $addCart.addEventListener("click", (event) => {
+	            event.preventDefault();
+	            
+	            if (!"${sessionScope.log}") {
+	                alert("로그인 후 이용 가능합니다.");
+	                location.href = cp + "/member/loginForm.do";
+	                return;
+	            }
+
+	            // 입력값 유효성 검사
+	            if (!$itemNumber.value || !$buyCount.value || isNaN($buyCount.value) || parseInt($buyCount.value) <= 0) {
+	                alert("올바른 수량을 입력해주세요.");
+	                return;
+	            }
+
+	            // AJAX 요청
+	            fetch(cp + "/shop/addCartPro.do", {
+	                method: "POST",
+	                headers: {
+	                    "Content-Type": "application/json; charset=UTF-8"
+	                },
+	                body: JSON.stringify({
+	                    itemNumber: $itemNumber.value,
+	                    buyCount: $buyCount.value,
+	                    log: "${sessionScope.log}" // 서버에서 세션으로 제공된 사용자 정보
+	                })
+	            })
+	                .then((response) => response.text())
+	                .then((data) => {
+	                    console.log("응답 데이터:", data);
+
+	                    let match = data.trim().match(/<p id='check'>(-?\d+)<\/p>/);
+	                    if (match && match[1] === "-1") {
+	                        alert("장바구니에 담겼습니다.");
+	                        location.href = cp + "/shop/cartList.do";
+	                    } else {
+	                        alert("장바구니 추가 실패");
+	                    }
+	                })
+	                .catch((error) => {
+	                    console.error("AJAX 요청 실패:", error);
+	                    alert("장바구니 추가 중 오류가 발생했습니다.");
+	                });
+	        });
+	    } else {
+	        console.error("btn-addCart 버튼을 찾을 수 없습니다.");
+	    }
+	});
 	</script>
 </body>
 </html>

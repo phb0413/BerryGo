@@ -31,7 +31,7 @@
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>	
-	
+	<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
     <h1 style="text-align: center;">장바구니</h1>
     <table>
         <thead>
@@ -44,6 +44,7 @@
             </tr>
         </thead>
         <tbody>
+        	<c:set var="total" value="0" />
             <c:forEach var="cart" items="${cartList}">
                 <tr>
                     <td>${cart.item_name}</td>
@@ -57,9 +58,15 @@
                         <button class="btn" onclick="removeItem(${cart.cart_number})">삭제</button>
                     </td>
                 </tr>
+                <c:set var="total" value="${total + cart.item_price * cart.cart_buycount}" />
             </c:forEach>
         </tbody>
     </table>
+    <div class="total-amount">
+    	<c:out value="주문금액 : ${total }원"></c:out>
+	</div>
+	<a href="${contextPath}/shop/addOrder.do">주문하기</a>
+
 
     <script>
     function removeItem(cart_number) {

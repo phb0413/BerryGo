@@ -41,6 +41,7 @@
 			<td colspan="3" align="center">
 				<h2>${item.item_name}</h2>
 				<input type="hidden" id="itemNumber" value="${item.item_number}">
+				<input type="hidden" id="itemName" value="${item.item_name}">
 			</td>
 		</tr>
 		<tr>
@@ -50,6 +51,8 @@
 			<td rowspan="7" width="100px">
 				<c:set var="imagePath" value="${pageContext.request.contextPath}/resources/image/${item.item_image}"></c:set>
 				<img id="item-image" src="${imagePath}">
+				<input type="hidden" id="itemImg" value="${imagePath}">
+				
 			</td>
 			<td colspan="2" align="right">정가 ${item.item_price }</td>
 		</tr>
@@ -57,6 +60,7 @@
 			<td colspan="2" align="right">
 				<fmt:parseNumber var="price" value="${item.item_price - item.item_price * item.item_discount / 100}"></fmt:parseNumber>
 				판매가 <fmt:formatNumber value="${price}" type="currency"></fmt:formatNumber>
+				<input type="hidden" id="itemPrice" value="${price}">
 			</td>
 		</tr>
 		<tr>
@@ -116,6 +120,9 @@
 	    const $addCart = document.querySelector("#btn-addCart");
 	    const $itemNumber = document.querySelector("#itemNumber");
 	    const $buyCount = document.querySelector("#buyCount");
+	    const $itemName = document.querySelector("#itemName");
+	    const $itemPrice = document.querySelector("#itemPrice");
+	    const $itemImg = document.querySelector("#itemImg");
 
 	    if ($addCart) {
 	        $addCart.addEventListener("click", (event) => {
@@ -142,7 +149,10 @@
 	                body: JSON.stringify({
 	                    itemNumber: $itemNumber.value,
 	                    buyCount: $buyCount.value,
-	                    log: "${sessionScope.log}" // 서버에서 세션으로 제공된 사용자 정보
+	                    log: "${sessionScope.log}", // 서버에서 세션으로 제공된 사용자 정보
+	                    itemName: $itemName.value,
+	                    itemPrice: $itemPrice.value,
+	                    itemImg: $itemImg.value,
 	                })
 	            })
 	                .then((response) => response.text())

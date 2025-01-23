@@ -3,8 +3,8 @@
 <mapper namespace="com.myspring.test.mapper.CartMapper">
 
 	<insert id="addItemToCart" parameterType="com.myspring.test.shop.Cart">
-		 INSERT INTO cart (cart_buyer, cart_buycount, cart_fruitnumber)
-        VALUES (#{cart_buyer}, #{cart_buycount}, #{cart_fruitnumber})
+		 INSERT INTO cart (cart_buyer, cart_buycount, cart_fruitnumber, item_name, item_price, item_image)
+        VALUES (#{cart_buyer}, #{cart_buycount}, #{cart_fruitnumber}, #{item_name}, #{item_price}, #{item_image})
 	</insert>
 	
 	<select id="getCartByUser" parameterType="String" resultType="com.myspring.test.shop.Cart">
@@ -13,7 +13,7 @@
             c.cart_buyer,
             c.cart_buycount,
             i.item_name,
-            i.item_price,
+            c.item_price,
             i.item_image
         FROM cart c
         JOIN item i ON c.cart_fruitnumber = i.item_number

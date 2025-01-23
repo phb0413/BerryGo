@@ -64,12 +64,16 @@ public class ShopController {
 	        String itemNumberStr = (String) payload.get("itemNumber");
 	        String buyCountStr = (String) payload.get("buyCount");
 	        String log = (String) payload.get("log");
+	        String itemName = (String) payload.get("itemName");
+	        String itemPriceStr = (String) payload.get("itemPrice");
+	        String itemImg = (String) payload.get("itemImg");
 
 	        // itemNumber와 buyCount 값을 String에서 int로 변환
 	        int itemNumber = Integer.parseInt(itemNumberStr); // String -> int 변환
 	        int buyCount = Integer.parseInt(buyCountStr); // String -> int 변환
+	        int itemPrice = Integer.parseInt(itemPriceStr);
 
-	        System.out.println("AJAX 요청 도착: itemNumber=" + itemNumber + ", buyCount=" + buyCount + ", log=" + log);
+	        System.out.println("AJAX 요청 도착: itemNumber=" + itemNumber + ", buyCount=" + buyCount + ", log=" + log + ", itemName=" + itemName + ",itemPrice=" + itemPrice + ",itemImg=" + itemImg);
 
 	        if (log == null || log.trim().isEmpty()) {
 	            return ResponseEntity.badRequest().body("<p id='check'>0</p>"); // 로그인 정보 누락
@@ -80,6 +84,9 @@ public class ShopController {
 	        cart.setCart_fruitnumber(itemNumber);
 	        cart.setCart_buyer(log);
 	        cart.setCart_buycount(buyCount);
+	        cart.setItem_name(itemName);
+	        cart.setItem_price(itemPrice);
+	        cart.setItem_image(itemImg);
 	        
 	        Cart existingCart = cart_mapper.getCartItem(cart);
 
@@ -108,6 +115,12 @@ public class ShopController {
 	        e.printStackTrace();
 	        return ResponseEntity.status(500).body("error"); // 오류 응답
 	    }
+	}
+	
+	@GetMapping(value="/addOrder.do")
+	public String addOrder() {
+	    
+	    return "shop/addOrder";
 	}
 	
 	

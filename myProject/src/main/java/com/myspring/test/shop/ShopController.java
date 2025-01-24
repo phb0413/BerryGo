@@ -118,8 +118,10 @@ public class ShopController {
 	}
 	
 	@GetMapping(value="/addOrder.do")
-	public String addOrder() {
-	    
+	public String addOrder(HttpServletRequest request, Model model) {
+	    String buyer = (String) request.getSession().getAttribute("log");
+	    List<Cart> cartList = cart_mapper.getCartByUser(buyer);
+        model.addAttribute("cartList", cartList);
 	    return "shop/addOrder";
 	}
 	

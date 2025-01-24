@@ -36,7 +36,15 @@
         WHERE cart_buyer = #{cart_buyer} AND cart_fruitnumber = #{cart_fruitnumber}
     </select>
 	
+	<select id="getCartItems" parameterType="String" resultType="map">
+		SELECT cart_booknumber, cart_buycount 
+        FROM cart 
+        WHERE cart_buyer = #{buyer}
+	</select>
 	
+	<delete id="deleteCartItems" parameterType="String">
+        DELETE FROM cart WHERE cart_buyer = #{buyer}
+    </delete>
 	
 	
 </mapper>

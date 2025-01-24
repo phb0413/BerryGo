@@ -1,6 +1,7 @@
 package com.myspring.test.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -13,5 +14,7 @@ public interface CartMapper {
 	public void updateCartItemCount(Cart cart);
 	public void removeItemFromCart(int cart_number);
 	Cart getCartItem(Cart cart);
+	List<Map<String, Object>> getCartItems(String buyer);
+	public void deleteCartItems(String buyer);
 	
 }

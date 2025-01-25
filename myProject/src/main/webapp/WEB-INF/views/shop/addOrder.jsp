@@ -8,6 +8,9 @@
 <title>addOrder</title>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+<script>
+		let cp = window.location.pathname.substring(0, window.location.pathname.indexOf("/",2));
+	</script>
 <style>
 	talbe, tr, td {
 		border: 1px solid black;
@@ -79,7 +82,7 @@
 		let requestPay = (event) => {
 			
 			let IMP = window.IMP; 
-	        IMP.init("imp03800374"); 
+	        IMP.init("imp70784620"); 
 	      
 	        let today = new Date();   
 	        let hours = today.getHours(); // 시
@@ -92,7 +95,7 @@
                 pg : 'html5_inicis',
                 pay_method : 'card',
                 merchant_uid: "IMP"+makeMerchantUid, 
-                name : 'ITBOOK',
+                name : 'FRUIT',
                 amount : 10,
                 buyer_email : 'Iamport@chai.finance',
                 buyer_name : '아임포트 기술지원팀',
@@ -107,7 +110,7 @@
                     
                     $.ajax({
     					type: "post",
-    					url: "addOrderPro.jsp",
+    					url: cp + "/shop/addOrderPro.do",
     					data: {
     						log: log,
     						buyer: $buyer.value,
@@ -116,7 +119,7 @@
     					},
     					success: function(data) {
     						alert("결제가 완료되었습니다.");
-    						location.href="orderList.jsp";
+    						location.href= cp+ "/shop/orderList.do";
     					},
     					error: function() {
     						alert("addOrderForm error");

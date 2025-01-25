@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.myspring.test.mapper.DeliveryMapper">
-	<insert id="insertDelivery" parameterType="com.myspring.test.shop.Delivery" useGeneratedKeys="true" keyProperty="deliveryNumber">
+	<insert id="insertDelivery" parameterType="com.myspring.test.shop.Delivery" useGeneratedKeys="true" keyProperty="delivery_number">
         INSERT INTO delivery (delivery_name, delivery_addr, delivery_tel) 
         VALUES (#{delivery_name}, #{delivery_addr}, #{delivery_tel})
     </insert>

@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.myspring.test.mapper.CartMapper;
+import com.myspring.test.mapper.DeliveryMapper;
 import com.myspring.test.mapper.ItemMapper;
+import com.myspring.test.mapper.OrderMenuMapper;
 
 @RequestMapping("/shop")
 @Controller
@@ -27,6 +30,12 @@ public class ShopController {
 	
 	@Autowired
 	private CartMapper cart_mapper;
+	
+	@Autowired
+	private OrderMenuMapper ordermapper;
+	
+	@Autowired
+	private DeliveryMapper deliverymapper;
 	
 	@GetMapping(value="/itemList.do")
 	public String itemList(Model model) {
@@ -125,7 +134,54 @@ public class ShopController {
 	    return "shop/addOrder";
 	}
 	
+	@PostMapping(value="/addOrderPro.do")
+	@Transactional
+	public ResponseEntity<String> processOrder(HttpServletRequest request,
+									            @RequestParam("buyer") String buyer,
+									            @RequestParam("tel") String tel,
+									            @RequestParam("addr") String addr) {
+		try {
+			List<Cart> cartList = cart_mapper.getCartByUser(buyer);
+			
+			Delivery delivery = new Delivery();
+			delivery.setDelivery_name(buyer);
+			delivery.setDelivery_addr(addr);
+			delivery.setDelivery_tel(tel);
+			deliverymapper.insertDelivery(delivery);
+			
+			for(Cart cart : cartList) {
+				OrderMenu order = new OrderMenu();
+				order.setOrder_deliverynumber(delivery.getDelivery_number());
+				order.setOrder_fruitnumber(cart.getCart_fruitnumber());
+				order.setOrder_buycount(cart.getCart_buycount());
+				order.setOrder_buyer(buyer);
+				
+				 // 디버깅 로그 추가
+			    System.out.println("배송 번호: " + delivery.getDelivery_number());
+			    System.out.println("주문 데이터: " + order);
+			    
+			    try {
+			        ordermapper.insertOrder(order);
+			        System.out.println("주문 저장 완료: " + order);
+			    } catch (Exception e) {
+			        e.printStackTrace();
+			        throw new RuntimeException("주문 저장 중 오류 발생: " + e.getMessage());
+			    }
+			}
+			
+			cart_mapper.deleteCartItems(buyer);
+			return ResponseEntity.ok("Order processed successfully");
+		} catch(Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(500).body("Failed to process order");
+		}
+		
+	}
 	
+	@GetMapping(value="/orderList.do")
+	public String orderList() {
+		return "shop/orderList";
+	}
 	
 	
 }

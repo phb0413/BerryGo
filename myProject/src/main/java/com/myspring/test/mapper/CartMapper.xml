@@ -12,6 +12,7 @@
             c.cart_number,
             c.cart_buyer,
             c.cart_buycount,
+            c.cart_fruitnumber,
             i.item_name,
             c.item_price,
             i.item_image

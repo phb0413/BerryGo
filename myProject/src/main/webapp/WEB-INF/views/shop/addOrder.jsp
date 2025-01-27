@@ -109,14 +109,14 @@
                     let log = "<%= (String)session.getAttribute("log") %>";
                     
                     $.ajax({
-    					type: "post",
+    					type: "POST",
     					url: cp + "/shop/addOrderPro.do",
-    					data: {
-    						log: log,
-    						buyer: $buyer.value,
-    						tel: $tel.value,
-    						addr: $addr.value
-    					},
+    					contentType: "application/json",
+    					data: JSON.stringify({
+    				        buyer: $buyer.value, // 입력 필드 값
+    				        tel: $tel.value,
+    				        addr: $addr.value
+    				    }),
     					success: function(data) {
     						alert("결제가 완료되었습니다.");
     						location.href= cp+ "/shop/orderList.do";

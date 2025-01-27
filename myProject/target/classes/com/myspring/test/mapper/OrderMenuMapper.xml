@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.myspring.test.mapper.OrderMenuMapper">
-	<insert id="insertOrder" parameterType="com.myspring.test.shop.OrderMenu" useGeneratedKeys="true" keyProperty="order_number">
+	<insert id="insertOrder" parameterType="com.myspring.test.shop.OrderMenu">
 		INSERT INTO OrderMenu (order_deliverynumber, order_fruitnumber, order_buycount, order_buyer)
 		VALUES (#{order_deliverynumber}, #{order_fruitnumber}, #{order_buycount}, #{order_buyer})
 	</insert>

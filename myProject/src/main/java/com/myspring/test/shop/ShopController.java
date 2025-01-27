@@ -136,12 +136,22 @@ public class ShopController {
 	
 	@PostMapping(value="/addOrderPro.do")
 	@Transactional
-	public ResponseEntity<String> processOrder(HttpServletRequest request,
-									            @RequestParam("buyer") String buyer,
-									            @RequestParam("tel") String tel,
-									            @RequestParam("addr") String addr) {
+	public ResponseEntity<String> processOrder(@RequestBody Map<String, Object> payload) {
+		String buyer = (String) payload.get("buyer");
+		String tel = (String) payload.get("tel");
+		String addr = (String) payload.get("addr");
 		try {
+			
+			System.out.println("buyer 값 확인: " + buyer);
+	        if (buyer == null || buyer.trim().isEmpty()) {
+	            throw new RuntimeException("로그인 정보가 없습니다.");
+	        }
+	        
 			List<Cart> cartList = cart_mapper.getCartByUser(buyer);
+			 if (cartList == null || cartList.isEmpty()) {
+	                throw new RuntimeException("장바구니가 비어 있습니다.");
+	         }
+	        System.out.println("장바구니 데이터: " + cartList);
 			
 			Delivery delivery = new Delivery();
 			delivery.setDelivery_name(buyer);
@@ -149,15 +159,23 @@ public class ShopController {
 			delivery.setDelivery_tel(tel);
 			deliverymapper.insertDelivery(delivery);
 			
+			if (delivery.getDelivery_number() == 0) {
+                throw new RuntimeException("배송 데이터 저장 실패");
+            }
+            System.out.println("배송 번호: " + delivery.getDelivery_number());
+
+			
 			for(Cart cart : cartList) {
+				
+				System.out.println("Cart 데이터: " + cart);
+			    System.out.println("Cart fruitnumber: " + cart.getCart_fruitnumber());
+			    
 				OrderMenu order = new OrderMenu();
 				order.setOrder_deliverynumber(delivery.getDelivery_number());
 				order.setOrder_fruitnumber(cart.getCart_fruitnumber());
 				order.setOrder_buycount(cart.getCart_buycount());
 				order.setOrder_buyer(buyer);
 				
-				 // 디버깅 로그 추가
-			    System.out.println("배송 번호: " + delivery.getDelivery_number());
 			    System.out.println("주문 데이터: " + order);
 			    
 			    try {
@@ -170,6 +188,7 @@ public class ShopController {
 			}
 			
 			cart_mapper.deleteCartItems(buyer);
+			 System.out.println("장바구니 데이터 삭제 완료");
 			return ResponseEntity.ok("Order processed successfully");
 		} catch(Exception e) {
 			e.printStackTrace();

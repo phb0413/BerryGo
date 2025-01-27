@@ -198,7 +198,19 @@ public class ShopController {
 	}
 	
 	@GetMapping(value="/orderList.do")
-	public String orderList() {
+	public String orderList(HttpServletRequest request, Model model) {
+		String buyer = (String) request.getSession().getAttribute("log");
+		System.out.println("buyer = " + buyer);
+		
+		if(buyer==null || buyer.trim().isEmpty()) {
+			throw new RuntimeException("로그인 정보가 없습니다.");
+		}
+		
+		List<OrderMenu> orderList = ordermapper.getOrderListByBuyer(buyer);
+		 if (orderList == null || orderList.isEmpty()) {
+             throw new RuntimeException("주문목록이 비어 있습니다.");
+		 }
+		model.addAttribute("orderList", orderList);
 		return "shop/orderList";
 	}
 	

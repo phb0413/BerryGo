@@ -22,6 +22,7 @@
 				<td><a href="${cp}/board/boardList.do">게시판</a></td>
 				<td><a href="${cp}/member/logout.do">로그아웃</a></td>
 				<td><a href="${cp}/shop/cartList.do">장바구니</a></td>
+				<td><a href="${cp}/shop/orderList.do">주문목록</a></td>
 			</tr>
 		</table>
 	</c:if>

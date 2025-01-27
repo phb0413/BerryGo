@@ -1,8 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.myspring.test.mapper.OrderMenuMapper">
+
 	<insert id="insertOrder" parameterType="com.myspring.test.shop.OrderMenu">
 		INSERT INTO OrderMenu (order_deliverynumber, order_fruitnumber, order_buycount, order_buyer)
 		VALUES (#{order_deliverynumber}, #{order_fruitnumber}, #{order_buycount}, #{order_buyer})
 	</insert>
+	
+	<select id="getOrderListByBuyer" parameterType="String" resultType="com.myspring.test.shop.OrderMenu">
+		SELECT
+			o.order_number,
+			o.order_deliverynumber,
+			o.order_fruitnumber,
+			o.order_buycount,
+			o.order_buyer,
+			i.item_name,
+			i.item_image,
+			i.item_price,
+			i.item_discount
+		FROM ordermenu o
+		JOIN item i on o.order_fruitnumber = i.item_number
+		WHERE o.order_buyer = #{buyer}
+	</select>
 </mapper>

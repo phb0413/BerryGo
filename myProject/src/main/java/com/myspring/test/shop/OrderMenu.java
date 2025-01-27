@@ -9,4 +9,8 @@ public class OrderMenu {
 	private int order_fruitnumber;
 	private int order_buycount;
 	private String order_buyer;
+	private String item_name;
+    private String item_image;
+    private int item_price;
+    private int item_discount;
 }

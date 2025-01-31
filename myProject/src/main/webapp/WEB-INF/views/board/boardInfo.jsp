@@ -7,77 +7,38 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>boardInfo.jsp</title>
-<style>
-		table, tr, td {
-            border: 1px solid black;
-            border-collapse: collapse;
-        }
-        #content-boardInfo {
-            margin: 0 auto;
-            width: 600px;
-        }
-        #title, #boardInfo {
-            text-align: center;
-        }
-        .boardImage {
-        	width: 100px;
-        	border: 1px solid lightgray;
-        }
-	</style>
+    <meta charset="UTF-8">
+    <title>게시글 상세 페이지</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-
-	<jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>	
-	
-	<div class="center">
-		<br>
-		<h1>게시글 상세 페이지</h1>
-		<br>
-		
-		<table border="1">
-			<tr>
-				<td>번호</td>
-				<td>${board.num}</td>
-				<td>조회수</td>
-				<td>${board.readcount}</td>
-			</tr>
-			<tr>
-				<td>작성자</td>
-				<td>${board.writer}</td>
-				<td>작성일</td>
-				<td>${board.reg_date}</td>
-			</tr>
-			<tr>
-				<td>제목</td>
-				<td colspan="3">${board.subject}</td>
-			</tr>
-			<tr>
-				<td>내용</td>
-				<td colspan="3">${board.content}</td>
-			</tr>
-			<tr>
-				<td>사진</td>
-				<td>
-					<c:forEach var="boardimage" items= "${boardimageList}">
-						<c:set var="imagePath" value="${cp}/resources/upload/${boardimage.boardimage_name}"></c:set>
-						<p>
-							<img src="${imagePath}" class="boardImage">
-						</p>
-					</c:forEach>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="4">
-					<input type="button" value="수정하기" onclick="location.href='${cp}/board/boardUpdateForm.do?num=${board.num}'">
-					<input type="button" value="삭제하기" onclick="location.href='${cp}/board/boardDelete.do?num=${board.num}'">
-					<input type="button" value="답글쓰기" onclick="location.href='${cp}/board/boardReWriteForm.do?num=${board.num}'">
-					<input type="button" value="목록보기" onclick="location.href='${cp}/board/boardList.do'" >
-				</td>
-			</tr>
-		</table>
-	</div>
-	<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
+    <jsp:include page="/WEB-INF/views/layout/header.jsp" />
+    <div class="container mt-5">
+        <h1 class="text-center">게시글 상세 페이지</h1>
+        <div class="card p-4 mt-4">
+            <table class="table table-bordered">
+                <tr><th>번호</th><td>${board.num}</td><th>조회수</th><td>${board.readcount}</td></tr>
+                <tr><th>작성자</th><td>${board.writer}</td><th>작성일</th><td>${board.reg_date}</td></tr>
+                <tr><th>제목</th><td colspan="3">${board.subject}</td></tr>
+                <tr><th>내용</th><td colspan="3">${board.content}</td></tr>
+                <tr>
+                    <th>사진</th>
+                    <td colspan="3">
+                        <c:forEach var="boardimage" items="${boardimageList}">
+                            <img src="${cp}/resources/upload/${boardimage.boardimage_name}" class="img-thumbnail" style="width: 100px;">
+                        </c:forEach>
+                    </td>
+                </tr>
+            </table>
+            <div class="text-center mt-3">
+                <a href="${cp}/board/boardUpdateForm.do?num=${board.num}" class="btn btn-primary">수정하기</a>
+                <a href="${cp}/board/boardDelete.do?num=${board.num}" class="btn btn-danger">삭제하기</a>
+                <a href="${cp}/board/boardReWriteForm.do?num=${board.num}" class="btn btn-warning">답글쓰기</a>
+                <a href="${cp}/board/boardList.do" class="btn btn-secondary">목록보기</a>
+            </div>
+        </div>
+    </div>
+    <jsp:include page="/WEB-INF/views/layout/footer.jsp" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

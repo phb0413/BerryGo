@@ -31,7 +31,7 @@
                              alt="${order.item_name}" style="width: 100px; height: auto;">
                     </td>
                     <td>${order.order_buycount}</td>
-                    <c:set var="price" value="${order.item_price - order.item_price * order.item_discount / 100 }"/>
+                    <c:set var="price" value="${(order.item_price - order.item_price * order.item_discount / 100) * order.order_buycount }"/>
                     <td><fmt:formatNumber value="${price}" type="number" maxFractionDigits="0" />원</td>
                 </tr>
                 <c:set var="total" value="${(total + price).intValue()}"/>

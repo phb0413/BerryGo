@@ -6,47 +6,40 @@
 <meta charset="UTF-8">
 <title>loginForm</title>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-	<style>
-		table, tr, td {
-            border: 1px solid black;
-            border-collapse: collapse;
-        }
-        #content-login {
-            margin: 0 auto;
-            width: 600px;
-        }
-        #title, #loginPro {
-            text-align: center;
-        }
-	</style>	
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">	
 	<script>
 		let cp = window.location.pathname.substring(0, window.location.pathname.indexOf("/",2));
 	</script>
 </head>
 <body>
-	<table id = "content-login">
-		<tr>
-			<td>아이디 : qwer1234</td>
-			<td>비밀번호 : Qwer1234!</td>
-		</tr>
-		<tr>
-			<td colspan="2" id="title">로그인</td>
-		</tr>
-		<tr>
-			<td>아이디</td>
-			<td><input type="text" id="input-memberId"></td>
-		</tr>
-		<tr>
-			<td>비밀번호</td>
-			<td><input type="text" id="input-memberPw"></td>
-		</tr>
-		<tr>
-			<td colspan="2" id="loginPro">
-				<button id="button-memberLoginPro">로그인</button>
-			</td>
-		</tr>
-	</table>
-	
+<jsp:include page="/WEB-INF/views/layout/header.jsp" />
+	<div class="container mt-5 mb-5">
+    <div class="card shadow mx-auto" style="max-width: 500px;">
+        <div class="card-header bg-dark text-white text-center">
+            <h3 class="mb-0">로그인</h3>
+        </div>
+        <div class="card-body">
+            <form id="loginForm">
+                <div class="mb-3">
+                    <label for="input-memberId" class="form-label">아이디</label>
+                    <input type="text" class="form-control" id="input-memberId" placeholder="아이디 입력">
+                </div>
+                <div class="mb-3">
+                    <label for="input-memberPw" class="form-label">비밀번호</label>
+                    <input type="password" class="form-control" id="input-memberPw" placeholder="비밀번호 입력">
+                </div>
+                <div class="text-center">
+                    <button type="button" id="button-memberLoginPro" class="btn btn-primary w-100">로그인</button>
+                </div>
+            </form>
+            <div class="mt-4 text-muted text-center small">
+                <p>예시 아이디: <strong>qwer1234</strong></p>
+                <p>예시 비밀번호: <strong>Qwer1234!</strong></p>
+            </div>
+        </div>
+    </div>
+</div>
+	<jsp:include page="/WEB-INF/views/layout/footer.jsp" />
 	<script>
 		let memberLoginPro = (event) => {
 			if($inputMemberId.value=="") {

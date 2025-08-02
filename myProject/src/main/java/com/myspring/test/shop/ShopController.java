@@ -131,6 +131,7 @@ public class ShopController {
 	    String buyer = (String) request.getSession().getAttribute("log");
 	    List<Cart> cartList = cart_mapper.getCartByUser(buyer);
         model.addAttribute("cartList", cartList);
+        request.getSession().setAttribute("cartList", cartList);
 	    return "shop/addOrder";
 	}
 	

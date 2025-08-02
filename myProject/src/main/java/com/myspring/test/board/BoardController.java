@@ -34,9 +34,9 @@ public class BoardController {
 	
 	@GetMapping(value="/boardList.do")
 	public String boardList(HttpServletRequest request, Model model) {
-		int allArticlesCount = mapper.getAllCount(); //전체 게시글 수
+		int allArticlesCount = mapper.getAllCount(); // 전체 게시글 수
 		int onePageArticlesCount = 10; // 한 페이지 보여줄 게시글 수
-		int currentPageNumber = 1; //현재 페이지 번호
+		int currentPageNumber = 1; // 현재 페이지 번호
 		if(request.getParameter("currentPageNumber") != null) {
 			currentPageNumber = Integer.parseInt(request.getParameter("currentPageNumber"));
 		}
@@ -51,7 +51,7 @@ public class BoardController {
 		ArrayList<Board> boardList = mapper.getAllBoard(map);
 		
 		int clickablePageCount = 5; // 페이지 번호 개수
-		int allPageCount = allArticlesCount / onePageArticlesCount; // 전체 페이지 수
+		int allPageCount = allArticlesCount / onePageArticlesCount;
 		
 		if(allArticlesCount % onePageArticlesCount != 0) allPageCount += 1;
 		
@@ -61,6 +61,7 @@ public class BoardController {
 		} else {
 			startPageNum = (currentPageNumber / clickablePageCount - 1) * clickablePageCount + 1;
 		}
+		
 		int endPageNum = startPageNum + clickablePageCount - 1;
 		if(endPageNum > allPageCount) {
 			endPageNum = allPageCount;
@@ -70,12 +71,10 @@ public class BoardController {
 		model.addAttribute("onePageArticlesCount", onePageArticlesCount);
 		model.addAttribute("number", number);
 		model.addAttribute("boardList", boardList);
-		model.addAttribute("boardList", boardList);
 		model.addAttribute("clickablePageCount", clickablePageCount);
 		model.addAttribute("allPageCount", allPageCount);
 		model.addAttribute("startPageNum", startPageNum);
 		model.addAttribute("endPageNum", endPageNum);
-		
 		return "board/boardList";
 	}
 	
@@ -89,8 +88,8 @@ public class BoardController {
 		Board board = mapper.getOneBoard(map);
 		model.addAttribute("board", board);
 		
-		ArrayList<BoardImage> boardimageList = imageMapper.getBoardImageList(map);
-		model.addAttribute("boardimageList", boardimageList);
+		ArrayList<BoardImage> boardImageList = imageMapper.getBoardImageList(map);
+		model.addAttribute("boardImageList", boardImageList);
 		
 		return "board/boardInfo";
 	}
@@ -109,24 +108,22 @@ public class BoardController {
 		
 		// mRequest는 별도의 한글 인코딩 처리가 필요하며, 예외처리도 함께 적용해야 한다.
 		mRequest.setCharacterEncoding("UTF-8");
-		
 		System.out.println("boardWritePro");
-
+		
 		ServletContext context = mRequest.getSession().getServletContext();
 		String saveFolder = "/resources/upload/";
 		String uploadPath = context.getRealPath(saveFolder);
-		System.out.println("uploadPath="+uploadPath);
+		System.out.println("uploadPath =" + uploadPath);
 		
-		// # getParameterNames() : form태그 안의 name값 불러오기
 		Enumeration<String> keyList = mRequest.getParameterNames();
 		Map<String, Object> mapList = new HashMap<String, Object>();
 		
 		while(keyList.hasMoreElements()) {
 			String key = keyList.nextElement();
-			System.out.print("key = " + key);
+			System.out.println("key = " + key);
 			
 			String value = mRequest.getParameter(key);
-			System.out.println(", value = " + value);
+			System.out.println("value = " + value);
 			
 			mapList.put(key, value);
 		}
@@ -136,19 +133,17 @@ public class BoardController {
 		int maxBoardRef = mapper.getMaxRef();
 		mapList.put("ref", maxBoardRef + 1);
 		
-		
-		
 		int check = mapper.insertBoard(mapList);
+		
 		if(check == 1) {
-			
 			int boardNumber = mapper.getLastBoardNumber();
 			
 			// # getFileNames() : form태그에서 type=file로 지정한 태그의 name값 불러오기
 			Iterator<String> iterator = mRequest.getFileNames();
 			
-			while(iterator.hasNext()){
+			while(iterator.hasNext()) {
 				Map<String, Object> imageMapList = new HashMap<String, Object>();
-
+				
 				imageMapList.put("boardNumber", boardNumber);
 				
 				String fileName = iterator.next();
@@ -162,13 +157,11 @@ public class BoardController {
 				
 				String saveFileName = originFileName;
 				
-				
-				// 업로드된 파일이 존재하면
-				if(saveFileName != null && !saveFileName.equals("")){
+				if(saveFileName != null && !saveFileName.equals("")) {
 					// 그 파일의 이름이 기존에 있던 파일들과 이름이 중복되면
-					if(new File(uploadPath + saveFileName).exists()){
+					if(new File(uploadPath + saveFileName).exists()) {
 						// 파일명 뒤에 _시간을 붙여 이름을 업뎃
-						 saveFileName = saveFileName + "_"+System.currentTimeMillis();
+						saveFileName = saveFileName + "_"+System.currentTimeMillis();
 					}
 					
 					try {
@@ -179,13 +172,10 @@ public class BoardController {
 						
 						imageMapList.put("fileName", saveFileName);
 						imageMapper.insertBoardImage(imageMapList);
-						
-					} catch (Exception e) {
+					} catch(Exception e) {
 						e.printStackTrace();
-					} 				
+					}
 				}
-
-				
 			}
 		}
 		

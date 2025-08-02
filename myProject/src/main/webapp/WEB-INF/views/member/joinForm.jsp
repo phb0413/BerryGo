@@ -7,20 +7,8 @@
 <title>Insert title here</title>
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-	<style>
-		table, tr, td {
-            border: 1px solid black;
-            border-collapse: collapse;
-        }
-        #content-join {
-            margin: 0 auto;
-            width: 600px;
-        }
-        #title, #joinPro {
-            text-align: center;
-        }
-	</style>
-	
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
 	<script>
 		console.log("window.location.pathname:", window.location.pathname);
 		let cp = window.location.pathname.substring(0, window.location.pathname.indexOf("/",2));
@@ -28,119 +16,146 @@
 	</script>
 </head>
 <body>
+	<jsp:include page="/WEB-INF/views/layout/header.jsp" />
 	
-	
-	<table id="content-join">
-        <tr>
-            <td colspan="3" id="title"><h2>회원가입</h2></td>
-        </tr>
-        <tr>
-            <td rowspan="2">아이디</td>
-            <td><input id="input-memberId" type="text" placeholder="아이디를 입력해주세요" value="test1234"></td>
-            <td><button id="button-memberIdCheckPro">중복확인</button></td>
-        </tr>
-        <tr>
-            <td id="msg-memberId" colspan="2"></td>
-        </tr>
-        <tr>
-            <td rowspan="2">비밀번호</td>
-            <td colspan="2"><input id="input-memberPw" type="text" placeholder="비밀번호를 입력해주세요" value="Test1234!"></td>
-        </tr>
-        <tr>
-            <td id="msg-memberPw" colspan="2"></td>
-        </tr>
-        <tr>
-            <td rowspan="2">비밀번호확인</td>
-            <td colspan="2"><input id="input-memberPwRe" type="text" placeholder="비밀번호를 한번 더 입력해주세요" value="Test1234!"></td>
-        </tr>
-        <tr>
-            <td id="msg-memberPwRe" colspan="2"></td>
-        </tr>
-        <tr>
-            <td rowspan="2">이름</td>
-            <td colspan="2"><input id="input-memberName" type="text" placeholder="이름을 입력해주세요" value="고유동"></td>
-        </tr>
-        <tr>
-            <td id="msg-memberName" colspan="2"></td>
-        </tr>
-        <tr>
-            <td rowspan="2">이메일</td>
-            <td><input id="input-memberEmail" type="text" placeholder="이메일을 입력해주세요" value="test1234@naver.com"></td>
-            <td><button id="button-memberEmailCheckPro">중복확인</button></td>
-        </tr>
-        <tr>
-            <td id="msg-memberEmail" colspan="2"></td>
-        </tr>
-        <tr>
-            <td rowspan="2">휴대폰</td>
-            <td colspan="2"><input id="input-memberPhone" type="text" placeholder="숫자만 입력해주세요" value="01012345678"></td>
-        </tr>
-        <tr>
-            <td id="msg-memberPhone" colspan="2"></td>
-        </tr>
-        <tr>
-            <td rowspan="2">우편번호</td>
-            <td><input id="input-memberAddr1" type="text" placeholder="우편번호를 입력해주세요" value="02830"></td>
-            <td><button onclick="execDaumPostcode()">우편번호검색</button></td>
-        </tr>
-        <tr>
-            <td id="msg-memberAddr1" colspan="2"></td>
-        </tr>
-        <tr>
-            <td rowspan="2">도로명 주소</td>
-            <td colspan="2"><input id="input-memberAddr2" type="text" placeholder="도로명 주소를 입력해주세요" value="서울 성북구 아리랑로 3"></td>
-        </tr>
-        <tr>
-            <td id="msg-memberAddr2" colspan="2"></td>
-        </tr>
-        <tr>
-            <td rowspan="2">남은 주소</td>
-            <td colspan="2"><input id="input-memberAddr3" type="text" placeholder="남은 주소를 입력해주세요" value="남은주소"></td>
-        </tr>
-        <tr>
-            <td id="msg-memberAddr3" colspan="2"></td>
-        </tr>
-        <tr>
-            <td>성별</td>
-            <td colspan="2">
-                <label><input type="radio" class="radio-memberGender" name="gender" value="1">남자</label>
-                <label><input type="radio" class="radio-memberGender" name="gender" value="2">여자</label>
-                <label><input type="radio" class="radio-memberGender" name="gender" value="0" checked>선택안함</label>
-            </td>
-        </tr>
-        <tr>
-            <td>유입 경로</td>
-            <td colspan="2">
-                <select id="select-memberRoute">
-                    <option value="1">인터넷 검색</option>
-                    <option value="2">지인 권유</option>
-                    <option value="3">SNS</option>
-                    <option value="4">광고</option>
-                    <option value="0" selected>기타</option>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td rowspan="2">이용약관동의</td>
-            <td colspan="2">
-                <label><input id="check-memberAllTerms" type="checkbox">전체 동의</label>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <label><input class="check-memberTerms" type="checkbox" value="1">이용약관 동의 (필수)<br></label>
-                <label><input class="check-memberTerms" type="checkbox" value="2">개인정보취급 동의 (필수)<br></label>
-                <label><input class="check-memberTerms" type="checkbox" value="3">만 14세 이상입니다. (필수)<br></label>
-                <label><input class="check-memberTerms select-memberTerm" type="checkbox" value="0">마케팅 메일 수신 동의 (선택)<br></label>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="3" id="joinPro">
-                <button id="button-memberJoinPro">가입하기</button>
-            </td>
-        </tr>
-    </table>
+	<div class="container mt-5 mb-5">
+    <div class="card shadow">
+        <div class="card-header bg-dark text-white">
+            <h3 class="text-center mb-0">회원가입</h3>
+        </div>
+        <div class="card-body">
+            <form id="joinForm">
+                <!-- 아이디 -->
+                <div class="mb-3 row">
+                    <label class="col-sm-3 col-form-label">아이디</label>
+                    <div class="col-sm-6">
+                        <input id="input-memberId" type="text" class="form-control" placeholder="아이디 입력">
+                        <div id="msg-memberId" class="form-text text-danger"></div>
+                    </div>
+                    <div class="col-sm-3">
+                        <button type="button" id="button-memberIdCheckPro" class="btn btn-secondary">중복확인</button>
+                    </div>
+                </div>
 
+                <!-- 비밀번호 -->
+                <div class="mb-3">
+                    <label class="form-label">비밀번호</label>
+                    <input id="input-memberPw" type="password" class="form-control" placeholder="비밀번호 입력">
+                    <div id="msg-memberPw" class="form-text text-danger"></div>
+                </div>
+
+                <!-- 비밀번호 확인 -->
+                <div class="mb-3">
+                    <label class="form-label">비밀번호 확인</label>
+                    <input id="input-memberPwRe" type="password" class="form-control" placeholder="비밀번호 재입력">
+                    <div id="msg-memberPwRe" class="form-text text-danger"></div>
+                </div>
+
+                <!-- 이름 -->
+                <div class="mb-3">
+                    <label class="form-label">이름</label>
+                    <input id="input-memberName" type="text" class="form-control" placeholder="이름 입력">
+                    <div id="msg-memberName" class="form-text text-danger"></div>
+                </div>
+
+                <!-- 이메일 -->
+                <div class="mb-3 row">
+                    <label class="col-sm-3 col-form-label">이메일</label>
+                    <div class="col-sm-6">
+                        <input id="input-memberEmail" type="text" class="form-control" placeholder="이메일 입력">
+                        <div id="msg-memberEmail" class="form-text text-danger"></div>
+                    </div>
+                    <div class="col-sm-3">
+                        <button type="button" id="button-memberEmailCheckPro" class="btn btn-secondary">중복확인</button>
+                    </div>
+                </div>
+
+                <!-- 휴대폰 -->
+                <div class="mb-3">
+                    <label class="form-label">휴대폰</label>
+                    <input id="input-memberPhone" type="text" class="form-control" placeholder="숫자만 입력">
+                    <div id="msg-memberPhone" class="form-text text-danger"></div>
+                </div>
+
+                <!-- 주소 -->
+                <div class="mb-3 row">
+                    <label class="col-sm-3 col-form-label">우편번호</label>
+                    <div class="col-sm-6">
+                        <input id="input-memberAddr1" type="text" class="form-control" placeholder="우편번호 입력">
+                        <div id="msg-memberAddr1" class="form-text text-danger"></div>
+                    </div>
+                    <div class="col-sm-3">
+                        <button type="button" onclick="execDaumPostcode()" class="btn btn-secondary">검색</button>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">도로명 주소</label>
+                    <input id="input-memberAddr2" type="text" class="form-control" placeholder="도로명 주소 입력">
+                    <div id="msg-memberAddr2" class="form-text text-danger"></div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">상세 주소</label>
+                    <input id="input-memberAddr3" type="text" class="form-control" placeholder="상세 주소 입력">
+                    <div id="msg-memberAddr3" class="form-text text-danger"></div>
+                </div>
+
+                <!-- 성별 -->
+                <div class="mb-3">
+                    <label class="form-label">성별</label><br>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input radio-memberGender" type="radio" name="gender" value="1"> <label class="form-check-label">남자</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input radio-memberGender" type="radio" name="gender" value="2"> <label class="form-check-label">여자</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input radio-memberGender" type="radio" name="gender" value="0" checked> <label class="form-check-label">선택안함</label>
+                    </div>
+                </div>
+
+                <!-- 유입 경로 -->
+                <div class="mb-3">
+                    <label class="form-label">유입 경로</label>
+                    <select id="select-memberRoute" class="form-select">
+                        <option value="1">인터넷 검색</option>
+                        <option value="2">지인 권유</option>
+                        <option value="3">SNS</option>
+                        <option value="4">광고</option>
+                        <option value="0" selected>기타</option>
+                    </select>
+                </div>
+
+                <!-- 약관 -->
+                <div class="mb-3">
+                    <label class="form-label">이용약관 동의</label>
+                    <div class="form-check">
+                        <input id="check-memberAllTerms" type="checkbox" class="form-check-input">
+                        <label class="form-check-label">전체 동의</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input check-memberTerms" type="checkbox" value="1"> 이용약관 동의 (필수)<br>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input check-memberTerms" type="checkbox" value="2"> 개인정보 취급 동의 (필수)<br>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input check-memberTerms" type="checkbox" value="3"> 만 14세 이상입니다. (필수)<br>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input check-memberTerms select-memberTerm" type="checkbox" value="0"> 마케팅 메일 수신 동의 (선택)<br>
+                    </div>
+                </div>
+
+                <!-- 가입 버튼 -->
+                <div class="text-center">
+                    <button type="button" id="button-memberJoinPro" class="btn btn-primary w-50">가입하기</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+     <jsp:include page="/WEB-INF/views/layout/footer.jsp" />
     <script>
 		/* 아이디 유효성 검사 */
 		let inputMemberIdInput = (event) => {

@@ -12,7 +12,7 @@
 	
 	<select id="getOneBoard" parameterType="java.util.Map" resultType="com.myspring.test.board.Board">
 		SELECT * FROM board
-		WHERE num=#{num}
+		WHERE num = #{num}
 	</select>
 	
 	<select id="getMaxRef" resultType="Integer">

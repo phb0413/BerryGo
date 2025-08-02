@@ -10,72 +10,59 @@
 <head>
 <meta charset="UTF-8">
 <title>itemList</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 	<style>
-		table, tr, td {
-            border: 1px solid black;
-            border-collapse: collapse;
+        .item-card img {
+            width: 100%;
+            height: auto;
+            max-height: 150px;
+            object-fit: cover;
+            border: 1px solid #dee2e6;
+            padding: 5px;
         }
-        #content-itemList {
-            margin: 0 auto;
-            width: 600px;
-        }
-        #title {
-            text-align: center;
-        }
-        .itemImage {
-        	width: 100px;
-        	border: 1px solid lightgray;        
-        }
-	</style>
+    </style>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
-	<table id="content-itemList">
-		<tr>
-			<td colspan="6" id="title"><h1>전체 과일 목록</h1></td>
-		</tr>
-		<c:set var="itemSize" value="${fn:length(itemList)}"></c:set>
-		<c:forEach var="index" begin="0" end="${itemSize}" step="3"> <!-- step을 3으로 설정 -->
-			<tr>
-				<c:forEach var="j" begin="0" end="2"> <!-- 한 번에 3개 항목을 표시하기 위해 end를 2로 설정 -->
-					<c:if test="${index + j < itemSize}">
-						<td width="150px" height="150px" align="center">
-							<c:set var="imagePath" value="${pageContext.request.contextPath}/resources/image/${itemList[index + j].item_image}"></c:set>
-							<a href = "#"><img class="itemImage" src="${imagePath}" width="100px"></a>
-						</td>
-					</c:if>
-				</c:forEach>
-			</tr>
-			<tr>
-				<c:forEach var="j" begin="0" end="2">
-					<c:if test="${index + j < itemSize}">
-						<c:choose>
-							<c:when test="${itemList[index + j].item_stock <= 0}">
-								<td>${itemList[index + j].item_name}</td>
-							</c:when>
-							<c:otherwise>
-								<td><a href="${cp}/shop/itemInfo.do?itemNumber=${itemList[index + j].item_number}">${itemList[index + j].item_name}</a></td>
-							</c:otherwise>
-						</c:choose>
-					</c:if>
-				</c:forEach>
-			</tr>
-			<tr>
-				<c:forEach var="j" begin="0" end="2">
-					<c:if test="${index + j < itemSize}">
-						<c:choose>
-							<c:when test="${itemList[index + j].item_stock <= 0}">
-								<td><b>품절</b></td>
-							</c:when>
-							<c:otherwise>
-								<td>${itemList[index + j].item_price}</td>
-							</c:otherwise>
-						</c:choose>
-					</c:if>
-				</c:forEach>
-			</tr>
-		</c:forEach>
-	</table>
+	<div class="container mt-5 mb-5">
+        <h2 class="text-center mb-4">전체 과일 목록</h2>
+        <div class="row g-4">
+            <c:forEach var="item" items="${itemList}">
+                <div class="col-md-4">
+                    <div class="card item-card h-100 text-center shadow-sm">
+                        <c:set var="imagePath" value="${cp}/resources/image/${item.item_image}" />
+                        <a href="${cp}/shop/itemInfo.do?itemNumber=${item.item_number}">
+                            <img src="${imagePath}" alt="${item.item_name}" class="card-img-top">
+                        </a>
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <c:choose>
+                                    <c:when test="${item.item_stock <= 0}">
+                                        ${item.item_name}
+                                    </c:when>
+                                    <c:otherwise>
+                                        <a href="${cp}/shop/itemInfo.do?itemNumber=${item.item_number}" class="text-decoration-none text-dark">
+                                            ${item.item_name}
+                                        </a>
+                                    </c:otherwise>
+                                </c:choose>
+                            </h5>
+                            <p class="card-text">
+                                <c:choose>
+                                    <c:when test="${item.item_stock <= 0}">
+                                        <span class="text-danger fw-bold">품절</span>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <span class="text-success fw-bold">${item.item_price}원</span>
+                                    </c:otherwise>
+                                </c:choose>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </c:forEach>
+        </div>
+    </div>
 	<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
 </body>
 </html>

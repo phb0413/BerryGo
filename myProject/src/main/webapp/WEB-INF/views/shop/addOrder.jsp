@@ -1,79 +1,81 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>addOrder</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 <script>
 		let cp = window.location.pathname.substring(0, window.location.pathname.indexOf("/",2));
 	</script>
-<style>
-	talbe, tr, td {
-		border: 1px solid black;
-		border-collapse: collapse;
-	}
-	#content-addOrder {
-		margin: 0 auto;
-	}
-	#title {
-		text-align: center;
-	}
-</style>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 	
-	<div align="center">
 	<c:set var="total" value="0"/>
 	<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
-		<table id="content-addOrder">
-			<c:forEach var="cart" items="${cartList}">
-					<tr>
-						<td>
-							${cart.item_name}
-							<input type="hidden" id="a" value="${cart.item_name}">
-						</td>
-						<td>
-	                    	<img src="${pageContext.request.contextPath}/resources/image/${cart.item_image}" 
-	                         alt="${cart.item_name}" style="width: 100px; height: auto;">
-               		 	</td>
-               		 	<td>
-               		 		${cart.cart_buycount}
-               		 		<input type="hidden" id="b" value="${cart.cart_buycount}">
-               		 	</td>
-               		 	<td>
-               		 		${cart.item_price * cart.cart_buycount}
-               		 	</td>
-					</tr>
-					<c:set var="total" value="${total + cart.item_price * cart.cart_buycount}" />
-				</c:forEach>
-				<tr>
-					<td>총 결제금액</td>
-					<td colspan="4" align="right"><c:out value="총 결제금액 : ${total }원"></c:out></td>
-				</tr>
-				<tr>
-					<td>주문자명</td>
-					<td colspan="4" align="right"><input type="text" id="buyer"></td>
-				</tr>
-				<tr>
-					<td>연락처</td>
-					<td colspan="4" align="right"><input type="text" id="tel"></td>
-				</tr>
-				<tr>
-					<td>주소</td>
-					<td colspan="4" align="right"><input type="text" id="addr"></td>
-				</tr>
-				<tr>
-					<td colspan="5" align="right">
-						<button id="btn-requestPay">결제하기</button>
-					</td>
-				</tr>
-		</table>
-	</div>
+		<div class="container mt-5 mb-5">
+    <div class="card shadow">
+        <div class="card-header bg-dark text-white text-center">
+            <h3 class="mb-0">주문 정보 확인 및 결제</h3>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive mb-4">
+                <table class="table table-bordered align-middle text-center">
+                    <thead class="table-light">
+                        <tr>
+                            <th>상품명</th>
+                            <th>이미지</th>
+                            <th>수량</th>
+                            <th>가격</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach var="cart" items="${cartList}">
+                            <tr>
+                                <td>${cart.item_name}</td>
+                                <td>
+                                    <img src="${contextPath}/resources/image/${cart.item_image}" style="width:100px;">
+                                </td>
+                                <td>${cart.cart_buycount}</td>
+                                <td><fmt:formatNumber value="${cart.item_price * cart.cart_buycount}" type="currency" /></td>
+                            </tr>
+                            <c:set var="total" value="${total + cart.item_price * cart.cart_buycount}" />
+                        </c:forEach>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="text-end mb-4">
+                <h5>총 결제 금액: <fmt:formatNumber value="${total}" type="currency" /></h5>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label class="form-label">주문자명</label>
+                    <input type="text" id="buyer" class="form-control" placeholder="주문자 이름">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">연락처</label>
+                    <input type="text" id="tel" class="form-control" placeholder="010-1234-5678">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">주소</label>
+                    <input type="text" id="addr" class="form-control" placeholder="배송지 주소">
+                </div>
+            </div>
+
+            <div class="text-center">
+                <button id="btn-requestPay" class="btn btn-primary btn-lg w-50">결제하기</button>
+            </div>
+        </div>
+    </div>
+</div>
 	
 	<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
 	

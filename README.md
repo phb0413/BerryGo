@@ -1,4 +1,4 @@
-# myProject
+# BerryGo
 
 
 쇼핑몰 기능 구현 웹사이트
